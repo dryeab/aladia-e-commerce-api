@@ -1,26 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { ConfigService } from '@nestjs/config';
 import { ProductsController } from './products.controller';
 
 @Module({
   imports: [
-    ClientsModule.registerAsync([
+    ClientsModule.register([
       {
         name: 'PRODUCT_SERVICE',
-        useFactory: (configService: ConfigService) => {
-          return {
-            transport: Transport.RMQ,
-            options: {
-              urls: [configService.get<string>('RABBITMQ_URL')],
-              queue: 'products_queue',
-              queueOptions: {
-                durable: false,
-              },
-            },
-          };
+        transport: Transport.TCP,
+        options: {
+          host: '127.0.0.1',
+          port: 3001,
         },
-        inject: [ConfigService],
       },
     ]),
   ],
