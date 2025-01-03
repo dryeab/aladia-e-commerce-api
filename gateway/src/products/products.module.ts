@@ -9,7 +9,7 @@ import { ProductsController } from './products.controller';
         name: 'PRODUCT_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: '127.0.0.1',
+          host: 'product-service',
           port: 3001,
         },
       },

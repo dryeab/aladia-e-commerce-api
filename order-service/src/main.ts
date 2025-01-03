@@ -8,13 +8,14 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        host: '127.0.0.1',
-        port: 3002,
+        host: '0.0.0.0',
+        port: parseInt(process.env.PORT) || 3002,
       },
     },
   );
-
   await app.listen();
-  console.log('Order-Service is listening on TCP port 3002...');
+  console.log(
+    'Order-Service is listening on port ' + (process.env.PORT || 3002),
+  );
 }
 bootstrap();

@@ -9,7 +9,7 @@ import { OrdersController } from './orders.controller';
         name: 'ORDER_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: '127.0.0.1',
+          host: 'order-service',
           port: 3002,
         },
       },
