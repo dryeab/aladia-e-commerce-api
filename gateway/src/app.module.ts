@@ -1,5 +1,9 @@
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule } from '@nestjs/config';
+import * as redisStore from 'cache-manager-redis-store';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 
@@ -10,14 +14,20 @@ import { OrdersModule } from './orders/orders.module';
     }),
     ProductsModule,
     OrdersModule,
-    // CacheModule.register({
-    //   store: redisStore,
-    //   host: process.env.REDIS_HOST,
-    //   port: parseInt(process.env.REDIS_PORT, 10),
-    //   ttl: 60,
-    // }),
+    CacheModule.register({
+      memory: redisStore,
+      host: 'redis',
+      port: 6379,
+      ttl: 25,
+      isGlobal: true,
+    }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
+  ],
 })
 export class AppModule {}
